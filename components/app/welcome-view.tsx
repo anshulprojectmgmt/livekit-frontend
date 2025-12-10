@@ -1,14 +1,13 @@
 'use client';
 
+import { forwardRef, useEffect } from 'react';
+
 interface WelcomeViewProps {
   startButtonText: string;
   onStartCall: () => void;
 }
 
-export const WelcomeView = ({
-  onStartCall,
-  ref,
-}: React.ComponentProps<'div'> & WelcomeViewProps) => {
+export const WelcomeView = forwardRef<HTMLDivElement, WelcomeViewProps>(({ onStartCall }, ref) => {
   useEffect(() => {
     const autoInit = async () => {
       const params = new URLSearchParams(window.location.search);
@@ -27,11 +26,11 @@ export const WelcomeView = ({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
-      } catch (err) {
+      } catch {
         console.warn('Profile failed to submit, continuing without it');
       }
 
-      onStartCall(); // Start the call immediately!
+      onStartCall();
     };
 
     autoInit();
@@ -45,4 +44,6 @@ export const WelcomeView = ({
       </div>
     </div>
   );
-};
+});
+
+WelcomeView.displayName = 'WelcomeView';
