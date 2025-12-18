@@ -16,7 +16,7 @@ export function useRoom(appConfig: AppConfig) {
     function onMediaDevicesError(error: Error) {
       toastAlert({
         title: 'Encountered an error with your media devices',
-        description: `${error.name}: ${error.message}`,
+        description: '${error.name}: ${error.message}',
       });
     }
 
@@ -87,14 +87,14 @@ export function useRoom(appConfig: AppConfig) {
           // Once the effect has cleaned up after itself, drop any errors
           //
           // These errors are likely caused by this effect rerunning rapidly,
-          // resulting in a previous run `disconnect` running in parallel with
-          // a current run `connect`
+          // resulting in a previous run disconnect running in parallel with
+          // a current run connect
           return;
         }
 
         toastAlert({
           title: 'There was an error connecting to the agent',
-          description: `${error.name}: ${error.message}`,
+          description: '${error.name}: ${error.message}',
         });
       });
     }
@@ -102,6 +102,13 @@ export function useRoom(appConfig: AppConfig) {
 
   const endSession = useCallback(() => {
     setIsSessionActive(false);
+
+    // Clear autoStart parameter from URL to prevent auto-restart
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('autoStart')) {
+      url.searchParams.delete('autoStart');
+      window.history.replaceState({}, '', url.toString());
+    }
   }, []);
 
   return { room, isSessionActive, startSession, endSession };

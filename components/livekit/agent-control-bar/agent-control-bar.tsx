@@ -71,6 +71,15 @@ export function AgentControlBar({
   );
 
   const handleDisconnect = useCallback(async () => {
+    console.log('🔴 END CALL clicked in LiveKit');
+
+    // Notify parent window FIRST (if embedded in iframe) that call has ended
+    if (window.parent !== window) {
+      console.log('📤 Posting call-ended message to parent window');
+      window.parent.postMessage({ type: 'call-ended' }, '*');
+    }
+
+    // Then end the session
     endSession();
     onDisconnect?.();
   }, [endSession, onDisconnect]);
