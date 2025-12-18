@@ -347,8 +347,8 @@ export const WelcomeView = ({
                       <div>
                         <h4 className="mb-1 font-semibold text-blue-900">Current Learning</h4>
                         <p className="text-sm text-blue-800">
-                          Let Talkypie gently support your child's current learning through playful
-                          chat.
+                          Let Talkypie gently support your child&apos;s current learning through
+                          playful chat.
                         </p>
                       </div>
                     </div>
